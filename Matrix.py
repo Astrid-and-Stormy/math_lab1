@@ -5,9 +5,9 @@ class Matrix:
         self.column = column
 
     def index_of_max_in_a_row(self, row):
-        maxim = max(self.data[row][:-1])
+        maxim = max(map(abs, self.data[row][:-1]))
         ans = 0
-        while self.data[row][ans] != maxim:
+        while abs(self.data[row][ans]) != maxim:
             ans += 1
         return ans
 
