@@ -1,3 +1,5 @@
+import math
+
 from Matrix import Matrix
 
 
@@ -100,6 +102,10 @@ def change_for_diagonal(matrix):
     indexes = [0]*matrix.row
     for i in range(matrix.row):
         cur = matrix.index_of_max_in_a_row(i)
+        # Проверить, является ли максимальный элемент в ряду элементом доминирующей диагонали
+        if matrix.data[i][cur] < sum(matrix.data[i][:-1]) - matrix.data[i][cur]:
+            print("Невозможно перестроить матрицу")
+            return matrix
         if indexes[cur]:
             print("Невозможно перестроить матрицу")
             return matrix
@@ -164,12 +170,14 @@ def iteration_method(matrix, accuracy):
             accuracies[i] = abs(x - x_k_1[i])
         iterations += 1
         x_k_1 = x_k
-        print("Погрешности на", iterations, "итерации составляют:")
-        for i in range(len(C)):
-            print("|x", i+1, " - x", i+1, "(k-1)| = ", accuracies[i], sep='')
+    for i in range(len(C)):
+        print("|x", i+1, " - x", i+1, "(k-1)| = ", accuracies[i], sep='')
     print("Решение данного уравнение выполнено за", iterations, "итераций")
-    for i in range(len(x_k)):
-        print("x", i+1, " = ", x_k[i], sep="")
+    if math.isnan(x_k[0]):
+        print("Уравнение невозможно решить итерационным методом")
+    else:
+        for i in range(len(x_k)):
+            print("x", i+1, " = ", x_k[i], sep="")
 
 
 def main():
